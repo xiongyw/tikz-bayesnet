@@ -1,6 +1,7 @@
 \documentclass[a4paper]{article}
 
 \usepackage{tikz}
+\usepackage{amsmath}
 \usetikzlibrary{bayesnet}
 \usepackage{caption, subcaption}
 
@@ -20,9 +21,9 @@
     \begin{tikzpicture}
 
       % Define nodes
-	  \node[const]                             (x) {$\quad\mathbf{x}\quad$};   % make it wider for enough plate width
-	  \node[const, below=of x]                 (t) {$\mathbf{t}$};
-	  \node[const, right=of t]                 (w) {$\mathbf{w}$};
+	  \node[const]                             (x) {$\quad\boldsymbol{x}\quad$};   % make it wider for enough plate width
+	  \node[const, below=of x]                 (t) {$\boldsymbol{t}$};
+	  \node[const, right=of t]                 (w) {$\boldsymbol{w}$};
     \node[const, right=of w]                 (t-hat) {$\hat{t}$};
     \node[const, above=of t-hat]             (x-hat) {$\hat{x}$};
 
@@ -40,15 +41,15 @@
   \begin{tikzpicture}
 
     % Define nodes
-    \node[const]                             (x) {$\quad\mathbf{x}\quad\ $};
-    \node[det, below=of x]                   (y) {$\mathbf{y}$};
-    \node[const, right=of y]                 (w) {$\mathbf{w}$};
+    \node[const]                             (x) {$\qquad\boldsymbol{x}\qquad$};
+    \node[det, below=of x]                   (y) {$\boldsymbol{y}$};
+    \node[const, right=of y]                 (w) {$\boldsymbol{w}$};
     \node[const, below=of w]                 (beta) {$\beta^{-1}$};
     \node[det, right=of w]                   (y-hat) {$\hat{y}$};
     \node[const, above=of y-hat]             (x-hat) {$\hat{x}$};
     \factor[below=of y]{t-f}{left:$\mathcal{N}$}{}{};
     \factor[below=of y-hat]{t-hat-f}{right:$\mathcal{N}$}{}{};
-    \node[obs, below=of t-f]                 (t) {$\mathbf{t}$};
+    \node[obs, below=of t-f]                 (t) {$\boldsymbol{t}$};
     \node[latent, below=of t-hat-f]          (t-hat) {$\hat{t}$};
 
     % Connect the nodes
@@ -68,18 +69,18 @@
   \begin{tikzpicture}
 
     % Define nodes
-    \node[const]                             (x) {$\quad\mathbf{x}\quad\ $};
-    \node[det, below=of x]                   (y) {$\mathbf{y}$};
-    \node[latent, right=of y]                (w) {$\mathbf{w}$};
+    \node[const]                             (x) {$\qquad\boldsymbol{x}\qquad$};
+    \node[det, below=of x]                   (y) {$\boldsymbol{y}$};
+    \node[latent, right=of y]                (w) {$\boldsymbol{w}$};
     \node[const, below=of w]                 (beta) {$\beta^{-1}$};
     \node[det, right=of w]                   (y-hat) {$\hat{y}$};
     \node[const, above=of y-hat]             (x-hat) {$\hat{x}$};
     \factor[above=of w]{w-f}{right:$\mathcal{N}$}{}{};
-    \node[const, above=of w-f, xshift=.6cm]  (mu) {$\mathbf{\mu}$};
-    \node[const, above=of w-f, xshift=-.6cm]   (alpha) {$\mathbf{\alpha}^{-1}\mathbf{I}$};
+    \node[const, above=of w-f, xshift=.6cm]  (mu) {$\boldsymbol{\mu}$};
+    \node[const, above=of w-f, xshift=-.6cm]   (alpha) {$\boldsymbol{\alpha}^{-1}\mathbf{I}$};
     \factor[below=of y]{t-f}{left:$\mathcal{N}$}{}{};
     \factor[below=of y-hat]{hat-f}{right:$\mathcal{N}$}{}{};
-    \node[obs, below=of t-f]                   (t) {$\mathbf{t}$};
+    \node[obs, below=of t-f]                   (t) {$\boldsymbol{t}$};
     \node[latent, below=of hat-f]                 (t-hat) {$\hat{t}$};
 
     % Connect the nodes
@@ -113,9 +114,9 @@
 
     % Define nodes
 
-    \node[const]                                  (theta){$\mathbf{\theta}$}; %
-    \node[det, below=of theta]                    (img_model){$I_m$}; %
-    \node[obs, below=1.5 of img_model]            (img_obs){$I_o$}; %
+    \node[const]                                  (theta){$\boldsymbol{\theta}$}; %
+    \node[det, below=of theta]                    (img_model){$\mathbf{I}_m$}; %
+    \node[obs, below=1.5 of img_model]            (img_obs){$\mathbf{I}_o$}; %
 
     % factors
     \factor[above=of img_obs]                     {f_obs}{left:$\mathcal{N}$}{}{}; %
@@ -137,11 +138,11 @@
 
     % Define nodes
 
-    \node[latent]                                 (theta){$\mathbf{\theta}$}; %
-    \node[const, above=of theta, xshift=-0.5cm]   (mu){$\mathbf{\mu}$}; %
-    \node[const, above=of theta, xshift=0.5cm]    (alpha){$\mathbf{\alpha}^{-1}\mathbf{I}$}; %
-    \node[det, below=of theta]                    (img_model){$I_m$}; %
-    \node[obs, below=1.5 of img_model]            (img_obs){$I_o$}; %
+    \node[latent]                                 (theta){$\boldsymbol{\theta}$}; %
+    \node[const, above=of theta, xshift=-0.5cm]   (mu){$\boldsymbol{\mu}$}; %
+    \node[const, above=of theta, xshift=0.5cm]    (alpha){$\boldsymbol{\alpha}^{-1}\mathbf{I}$}; %
+    \node[det, below=of theta]                    (img_model){$\mathbf{I}_m$}; %
+    \node[obs, below=1.5 of img_model]            (img_obs){$\mathbf{I}_o$}; %
 
     % factors
     \factor[above=of theta]                       {f_theta}{left:$\mathcal{N}$}{}{}; %
@@ -165,12 +166,12 @@
 
     % Define nodes
 
-    \node[latent]                                 (theta){$\mathbf{\theta}$}; %
-    \node[const, right=of theta]                  (phi){$\mathbf{\phi}$}; %
-    \node[const, above=of theta, xshift=-0.5cm]   (mu){$\mathbf{\mu}$}; %
-    \node[const, above=of theta, xshift=0.5cm]    (alpha){$\mathbf{\alpha}^{-1}\mathbf{I}$}; %
-    \node[det, below=of theta]                    (img_model){$I_m$}; %
-    \node[obs, below=1.5 of img_model]            (img_obs){$I_o$}; %
+    \node[latent]                                 (theta){$\boldsymbol{\theta}$}; %
+    \node[const, right=of theta]                  (phi){$\boldsymbol{\varphi}$}; %
+    \node[const, above=of theta, xshift=-0.5cm]   (mu){$\boldsymbol{\mu}$}; %
+    \node[const, above=of theta, xshift=0.5cm]    (alpha){$\boldsymbol{\alpha}^{-1}\mathbf{I}$}; %
+    \node[det, below=of theta]                    (img_model){$\mathbf{I}_m$}; %
+    \node[obs, below=1.5 of img_model]            (img_obs){$\mathbf{I}_o$}; %
 
     % factors
     \factor[above=of theta]                       {f_theta}{left:$\mathcal{N}$}{}{}; %
@@ -195,10 +196,10 @@
 
   \end{tabular}
   \end{center}
-  \caption{MAPIS models: $\mathbf{\theta}=\{\mathrm{pitch, angle, tlx, tly}\}$, $\alpha^{-1}\mathbf{I}$ is the covariance matrix for $\mathbf{\theta}$;
-  $I_m$ is the image generated by the model (it's supposed that the number of columns and rows of pinholes are known); $I_o$ are captured images by sensor;
-  $\beta^{-1}$ is the variance of Gaussian noise added to each pixel of $I_m$ (due to sensor noise and other effects). (a) MLE point estimation for $\mathbf{\theta}$;
-  (b) MAP point estimation for $\mathbf{\theta}$; (c) Adding $\mathbf{\phi}=\{?\}$ as the cause for biased noise due to reflections...}
+  \caption{MAPIS models: $\boldsymbol{\theta}=\{\mathrm{pitch, angle, tlx, tly}\}$, $\alpha^{-1}\mathbf{I}$ is the covariance matrix for $\boldsymbol{\theta}$;
+  $\mathbf{I}_m$ is the image generated by the model (it's supposed that the number of columns and rows of pinholes are known); $\mathbf{I}_o$ are captured images by sensor;
+  $\beta^{-1}$ is the variance of Gaussian noise added to each pixel of $\mathbf{I}_m$ (due to sensor noise and other effects). (a) MLE point estimation for $\boldsymbol{\theta}$;
+  (b) MAP point estimation for $\boldsymbol{\theta}$; (c) Adding $\boldsymbol{\varphi}=\{?\}$ as the cause for biased noise due to reflections...}
 \end{figure}
 
 
