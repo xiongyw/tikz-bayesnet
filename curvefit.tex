@@ -25,7 +25,7 @@
 	  \node[const, below=of x]                 (t) {$\boldsymbol{t}$};
 	  \node[const, right=of t]                 (w) {$\boldsymbol{w}$};
     \node[const, right=of w]                 (t-hat) {$\hat{t}$};
-    \node[const, above=of t-hat]             (x-hat) {$\hat{x}$};
+    \node[const, above=of t-hat]             (x-hat) {$x$};
 
 	  % Connect the nodes
 	  \edge {x,w} {t} ;
@@ -45,8 +45,8 @@
     \node[det, below=of x]                   (y) {$\boldsymbol{y}$};
     \node[const, right=of y]                 (w) {$\boldsymbol{w}$};
     \node[const, below=of w]                 (beta) {$\beta^{-1}$};
-    \node[det, right=of w]                   (y-hat) {$\hat{y}$};
-    \node[const, above=of y-hat]             (x-hat) {$\hat{x}$};
+    \node[det, right=of w]                   (y-hat) {$y$};
+    \node[const, above=of y-hat]             (x-hat) {$x$};
     \factor[below=of y]{t-f}{left:$\mathcal{N}$}{}{};
     \factor[below=of y-hat]{t-hat-f}{right:$\mathcal{N}$}{}{};
     \node[obs, below=of t-f]                 (t) {$\boldsymbol{t}$};
@@ -73,8 +73,8 @@
     \node[det, below=of x]                   (y) {$\boldsymbol{y}$};
     \node[latent, right=of y]                (w) {$\boldsymbol{w}$};
     \node[const, below=of w]                 (beta) {$\beta^{-1}$};
-    \node[det, right=of w]                   (y-hat) {$\hat{y}$};
-    \node[const, above=of y-hat]             (x-hat) {$\hat{x}$};
+    \node[det, right=of w]                   (y-hat) {$y$};
+    \node[const, above=of y-hat]             (x-hat) {$x$};
     \factor[above=of w]{w-f}{right:$\mathcal{N}$}{}{};
     \node[const, above=of w-f, xshift=.6cm]  (mu) {$\boldsymbol{\mu}$};
     \node[const, above=of w-f, xshift=-.6cm]   (alpha) {$\boldsymbol{\alpha}^{-1}\mathbf{I}$};
@@ -116,18 +116,19 @@
 
     \node[const]                                  (theta){$\boldsymbol{\theta}$}; %
     \node[det, below=of theta]                    (img_model){$\mathbf{I}_m$}; %
-    \node[obs, below=1.5 of img_model]            (img_obs){$\mathbf{I}_o$}; %
+    \node[obs, below=1.5 of img_model]            (pix_obs){$\mathbf{I}_{ij}$}; %
 
     % factors
-    \factor[above=of img_obs]                     {f_obs}{left:$\mathcal{N}$}{}{}; %
+    \factor[above=of pix_obs]                     {f_obs}{left:$\mathcal{N}$}{}{}; %
     \node[const, right=of f_obs]  (beta){$\beta^{-1}$}; %
-    \factoredge {img_model, beta} {f_obs} {img_obs}; %
+    \factoredge {img_model, beta} {f_obs} {pix_obs}; %
 
     % Connect the nodes
     \edge {theta} {img_model} ;
 
     % Plates
-    \plate {plate_obs} {(img_obs)(f_obs)(f_obs-caption)} {$N$} ;
+    \plate {plate_pix_obs} {(pix_obs)(f_obs)(f_obs-caption)} {$l\times k$} ;
+    \plate {plate_img_obs} {(plate_pix_obs)(beta)} {$N$} ;
 
   \end{tikzpicture}
 
@@ -142,20 +143,21 @@
     \node[const, above=of theta, xshift=-0.5cm]   (mu){$\boldsymbol{\mu}$}; %
     \node[const, above=of theta, xshift=0.5cm]    (alpha){$\boldsymbol{\alpha}^{-1}\mathbf{I}$}; %
     \node[det, below=of theta]                    (img_model){$\mathbf{I}_m$}; %
-    \node[obs, below=1.5 of img_model]            (img_obs){$\mathbf{I}_o$}; %
+    \node[obs, below=1.5 of img_model]            (pix_obs){$\mathbf{I}_{ij}$}; %
 
     % factors
     \factor[above=of theta]                       {f_theta}{left:$\mathcal{N}$}{}{}; %
-    \factor[above=of img_obs]                     {f_obs}{left:$\mathcal{N}$}{}{}; %
+    \factor[above=of pix_obs]                     {f_obs}{left:$\mathcal{N}$}{}{}; %
     \node[const, right=of f_obs]  (beta){$\beta^{-1}$}; %
     \factoredge {mu, alpha} {f_theta} {theta}; %
-    \factoredge {img_model, beta} {f_obs} {img_obs}; %
+    \factoredge {img_model, beta} {f_obs} {pix_obs}; %
 
     % Connect the nodes
     \edge {theta} {img_model} ;
 
     % Plates
-    \plate {plate_obs} {(img_obs)(f_obs)(f_obs-caption)} {$N$} ;
+    \plate {plate_obs} {(pix_obs)(f_obs)(f_obs-caption)} {$l\times k$} ;
+    \plate {plate_img_obs} {(plate_pix_obs)(beta)} {$N$} ;
 
   \end{tikzpicture}
 
@@ -171,20 +173,21 @@
     \node[const, above=of theta, xshift=-0.5cm]   (mu){$\boldsymbol{\mu}$}; %
     \node[const, above=of theta, xshift=0.5cm]    (alpha){$\boldsymbol{\alpha}^{-1}\mathbf{I}$}; %
     \node[det, below=of theta]                    (img_model){$\mathbf{I}_m$}; %
-    \node[obs, below=1.5 of img_model]            (img_obs){$\mathbf{I}_o$}; %
+    \node[obs, below=1.5 of img_model]            (pix_obs){$\mathbf{I}_{ij}$}; %
 
     % factors
     \factor[above=of theta]                       {f_theta}{left:$\mathcal{N}$}{}{}; %
-    \factor[above=of img_obs]                     {f_obs}{left:$\mathcal{N}$}{}{}; %
+    \factor[above=of pix_obs]                     {f_obs}{left:$\mathcal{N}$}{}{}; %
     \node[const, right=of f_obs]  (beta){$\beta^{-1}$}; %
     \factoredge {mu, alpha} {f_theta} {theta}; %
-    \factoredge {img_model, beta} {f_obs} {img_obs}; %
+    \factoredge {img_model, beta} {f_obs} {pix_obs}; %
 
     % Connect the nodes
     \edge {theta,phi} {img_model} ;
 
     % Plates
-    \plate {plate_obs} {(img_obs)(f_obs)(f_obs-caption)} {$N$} ;
+    \plate {plate_obs} {(pix_obs)(f_obs)(f_obs-caption)} {$l\times k$} ;
+    \plate {plate_img_obs} {(plate_pix_obs)(beta)} {$N$} ;
 
   \end{tikzpicture}
 
@@ -197,7 +200,7 @@
   \end{tabular}
   \end{center}
   \caption{MAPIS models: $\boldsymbol{\theta}=\{\mathrm{pitch, angle, tlx, tly}\}$, $\alpha^{-1}\mathbf{I}$ is the covariance matrix for $\boldsymbol{\theta}$;
-  $\mathbf{I}_m$ is the image generated by the model (it's supposed that the number of columns and rows of pinholes are known); $\mathbf{I}_o$ are captured images by sensor;
+  $\mathbf{I}_m$ is the 8-bit grey image generated by the model (the image dimension is $l\times k$); $\mathbf{I}_{ij}$ are observed pixel intensity at $(i,j)$ in the image captured by sensor;
   $\beta^{-1}$ is the variance of Gaussian noise added to each pixel of $\mathbf{I}_m$ (due to sensor noise and other effects). (a) MLE point estimation for $\boldsymbol{\theta}$;
   (b) MAP point estimation for $\boldsymbol{\theta}$; (c) Adding $\boldsymbol{\varphi}=\{?\}$ as the cause for biased noise due to reflections...}
 \end{figure}
